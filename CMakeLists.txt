@@ -14,6 +14,7 @@ set(UNIX_ENUM 1)
 set(GCC_ENUM 2)
 set(MINGW_ENUM 3)
 set(VISUAL_STUDIO_ENUM 4)
+set(CLANG_ENUM 5)
 
 # Define the render systems.
 set(SDL_ENUM 5)
@@ -39,6 +40,8 @@ elseif (MINGW)
   set(COMPILER ${MINGW_ENUM})
 elseif (CMAKE_COMPILER_IS_GNUCC)
   set(COMPILER ${GCC_ENUM})
+elseif (APPLE)
+  set(COMPILER ${CLANG_ENUM})
 else (MSVC)
   message(FATAL_ERROR "An unknown compiler is being used." )
 endif (MSVC)
@@ -51,7 +54,14 @@ set(CMAKE_CXX_FLAGS "-DDEBUG -g -Wall -O0 -std=c++0x")
 endif()
 
 set(SRC_MAIN
-   ${CMAKE_CURRENT_SOURCE_DIR}/src/render.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/math/vector.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/math/vector3d.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/color.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/ray.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/resource/bitmap.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/world/camera.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/world/scene.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/render.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
 )
 

@@ -11,7 +11,17 @@ Vector3d& Ray::origin()
     return o;
 }
 
+const Vector3d& Ray::origin() const
+{
+    return o;
+}
+
 Vector3d& Ray::direction()
+{
+    return d;
+}
+
+const Vector3d& Ray::direction() const
 {
     return d;
 }

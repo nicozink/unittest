@@ -10,6 +10,7 @@ All rights reserved.
 // Project Includes
 
 // System Includes
+#include <cmath>
 
 //
 // Constructors
@@ -30,4 +31,46 @@ Vector3d::Vector3d(double v1, double v2, double v3)
 : Vector({ v1, v2, v3 })
 {
   
+}
+
+double Vector3d::dot(const Vector3d& other) const
+{
+  return x() * other.x() + y() * other.y() + z() * other.z();
+}
+
+double& Vector3d::x()
+{
+  return Get(0);
+}
+
+double Vector3d::x() const
+{
+  return Get(0);
+}
+
+double& Vector3d::y()
+{
+  return Get(1);
+}
+
+double Vector3d::y() const
+{
+  return Get(1);
+}
+
+double& Vector3d::z()
+{
+  return Get(2);
+}
+
+double Vector3d::z() const
+{
+  return Get(2);
+}
+
+Vector3d Vector3d::operator-(const Vector3d& other) const
+{
+  Vector3d result(x() - other.x(), y() - other.y(), z() - other.z());
+
+  return result;
 }

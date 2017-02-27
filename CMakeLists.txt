@@ -54,11 +54,14 @@ set(CMAKE_CXX_FLAGS "-DDEBUG -g -Wall -O0 -std=c++0x")
 endif()
 
 set(SRC_MAIN
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/math/quadratic.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/math/vector.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/math/vector3d.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/color.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/ray.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/resource/bitmap.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/sphere.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/traceable.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/world/camera.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/world/scene.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/render.cpp

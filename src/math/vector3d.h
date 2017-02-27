@@ -30,6 +30,19 @@ class Vector3d : public Vector<double, 3>
     // @param v2 The second value.
     // @param v3 The third value.
     Vector3d(double v1, double v2, double v3);
+
+    double dot(const Vector3d& other) const;
+
+    double& x();
+    double x() const;
+
+    double& y();
+    double y() const;
+
+    double& z();
+    double z() const;
+
+    Vector3d operator-(const Vector3d& other) const;
 };
 
 #endif

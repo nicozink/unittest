@@ -96,13 +96,21 @@ class Vector
       return values[i];
     }
     
+    // Returns the value stored in the given index.
+    // @param i The index.
+    // @returns The value.
+    TType Get(int i) const
+    {
+      return values[i];
+    }
+
     // Gets the values stored in the array.
     // @returns The values.
     TType* GetArray()
     {
       return values;
     }
-    
+
   protected:
   
     //

@@ -28,7 +28,7 @@ void Bitmap::save(std::string file)
   FILE *fp = fopen(file.c_str(), "w");
   fprintf(fp, "P3\n%d %d\n255\n", w, h);
 
-  for (int y = 0; y < h; ++y)
+  for (int y = h - 1; y >= 0; --y)
   {
     for (int x = 0; x < w; ++x)
     {

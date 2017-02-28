@@ -15,7 +15,7 @@ Sphere::~Sphere()
     
 }
 
-Color Sphere::trace(const Ray& r)
+bool Sphere::trace(const Ray& r, Color& color)
 {
     /*
      * Given the following:
@@ -57,7 +57,7 @@ Color Sphere::trace(const Ray& r)
 
     if (!Quadratic::solve(a, b, c, x1, x2))
     {
-        return Color(1.0, 0.0, 0.0, 0.0);
+        return false;
     }
 
     if (x1 > x2 && x2 >= 0.0)
@@ -67,8 +67,9 @@ Color Sphere::trace(const Ray& r)
  
     if (x1 < 0.0)
     { 
-        return Color(1.0, 0.0, 0.0, 0.0);
+        return false;
     } 
- 
-    return Color(0.0, 0.0, 1.0, 0.0);
+
+    color = Color(1.0, 0.0, 0.0, 0.0);
+    return true;
 }

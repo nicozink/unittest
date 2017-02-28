@@ -9,5 +9,5 @@ public:
 
     virtual ~Traceable();
 
-    virtual Color trace(const Ray& r) = 0;
+    virtual bool trace(const Ray& r, Color& color) = 0;
 };

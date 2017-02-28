@@ -10,7 +10,7 @@ public:
 
     ~Sphere();
 
-    Color trace(const Ray& r) override;
+    bool trace(const Ray& r, Color& color) override;
 
 private:
 

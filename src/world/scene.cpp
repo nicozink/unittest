@@ -19,15 +19,15 @@ Scene::~Scene()
 
 Color Scene::trace(const Ray r)
 {
+    Color c;
+
     for (auto& traceable : traceables)
     {
-        return traceable->trace(r);
+        if (traceable->trace(r, c))
+        {
+            return c;
+        }
     }
 
-    const Vector3d &v = r.direction();
-
-    double cx = v.x() + 0.5;
-    double cy = v.y() + 0.5;
-
-    return Color(cx, cy, 0.0);
+    return Color(0.0, 0.0, 0.0);
 }

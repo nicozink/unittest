@@ -55,3 +55,13 @@ double Color::a() const
 {
     return channels[3];
 }
+
+Color Color::operator+(const Color& other) const
+{
+    return Color(r() + other.r(), g() + other.g(), b() + other.b(), a());
+}
+
+Color Color::operator*(const double value) const
+{
+    return Color(r() * value, g() * value, b() * value, a());
+}

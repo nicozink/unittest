@@ -25,3 +25,8 @@ const Vector3d& Ray::direction() const
 {
     return d;
 }
+
+Vector3d Ray::get_position(double distance) const
+{
+    return o + d * distance;
+}

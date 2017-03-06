@@ -15,7 +15,7 @@ Sphere::~Sphere()
     
 }
 
-bool Sphere::trace(const Ray& r, Color& color)
+bool Sphere::trace(const Ray& r, Intersection& intersection)
 {
     /*
      * Given the following:
@@ -68,8 +68,14 @@ bool Sphere::trace(const Ray& r, Color& color)
     if (x1 < 0.0)
     { 
         return false;
-    } 
+    }
 
-    color = Color(1.0, 0.0, 0.0, 0.0);
+    Vector3d normal = r.get_position(x1) - position;
+    normal.normalise();
+
+    intersection.distance = x1;
+    intersection.color = Color(1.0, 0.0, 0.0, 0.0);
+    intersection.normal = normal;
+
     return true;
 }

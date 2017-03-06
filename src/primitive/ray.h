@@ -14,6 +14,8 @@ class Ray
         Vector3d& direction();
         const Vector3d& direction() const;
 
+        Vector3d get_position(double distance) const;
+
     private:
 
         Vector3d o;

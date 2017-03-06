@@ -1,6 +1,6 @@
 #pragma once
 
-#include "primitive/color.h"
+#include "primitive/intersection.h"
 #include "primitive/ray.h"
 
 class Traceable
@@ -9,5 +9,7 @@ public:
 
     virtual ~Traceable();
 
-    virtual bool trace(const Ray& r, Color& color) = 0;
+    virtual bool trace(const Ray& r, Intersection& intersection) = 0;
+
+    bool trace(const Ray& r);
 };

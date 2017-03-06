@@ -60,6 +60,7 @@ set(SRC_MAIN
   ${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/color.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/ray.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/resource/bitmap.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/light.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/sphere.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/traceable.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/world/camera.cpp

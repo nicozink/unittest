@@ -33,6 +33,10 @@ class Vector3d : public Vector<double, 3>
 
     double dot(const Vector3d& other) const;
 
+    double length() const;
+
+    void normalise();
+
     double& x();
     double x() const;
 
@@ -42,7 +46,11 @@ class Vector3d : public Vector<double, 3>
     double& z();
     double z() const;
 
+    Vector3d operator+(const Vector3d& other) const;
+
     Vector3d operator-(const Vector3d& other) const;
+
+    Vector3d operator*(const double value) const;
 };
 
 #endif

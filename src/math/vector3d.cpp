@@ -38,6 +38,20 @@ double Vector3d::dot(const Vector3d& other) const
   return x() * other.x() + y() * other.y() + z() * other.z();
 }
 
+double Vector3d::length() const
+{
+  return sqrt(x() * x() + y() * y() + z() * z());
+}
+
+void Vector3d::normalise()
+{
+  double l = length();
+
+  x() = x() / l;
+  y() = y() / l;
+  z() = z() / l;
+}
+
 double& Vector3d::x()
 {
   return Get(0);
@@ -68,9 +82,23 @@ double Vector3d::z() const
   return Get(2);
 }
 
+Vector3d Vector3d::operator+(const Vector3d& other) const
+{
+  Vector3d result(x() + other.x(), y() + other.y(), z() + other.z());
+
+  return result;
+}
+
 Vector3d Vector3d::operator-(const Vector3d& other) const
 {
   Vector3d result(x() - other.x(), y() - other.y(), z() - other.z());
+
+  return result;
+}
+
+Vector3d Vector3d::operator*(const double value) const
+{
+  Vector3d result(x() * value, y() * value, z() * value);
 
   return result;
 }

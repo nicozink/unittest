@@ -20,6 +20,10 @@ public:
     double& a();
     double a() const;
 
+    Color operator+(const Color& other) const;
+
+    Color operator*(const double value) const;
+
 private:
 
         double channels[4];

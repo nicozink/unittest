@@ -1,5 +1,7 @@
 #include "bitmap.h"
 
+#include <cmath>
+
 Bitmap::Bitmap(int w, int h)
 {
     this->h = h;
@@ -35,9 +37,9 @@ void Bitmap::save(std::string file)
       const Color c = get_pixel(x, y);
 
       unsigned char out[3];
-      out[0] = c.r() * (double)255;
-      out[1] = c.g() * (double)255;
-      out[2] = c.b() * (double)255;
+      out[0] = fmin(c.r(), 1.0) * (double)255;
+      out[1] = fmin(c.g(), 1.0) * (double)255;
+      out[2] = fmin(c.b(), 1.0) * (double)255;
       fprintf(fp, "%d %d %d\n", out[0], out[1], out[2]);
     }
   }

@@ -15,7 +15,7 @@ Sphere::~Sphere()
     
 }
 
-bool Sphere::trace(const Ray& r, Intersection& intersection)
+bool Sphere::trace(const Ray& r, Intersection& intersection, double min_distance)
 {
     /*
      * Given the following:
@@ -60,12 +60,12 @@ bool Sphere::trace(const Ray& r, Intersection& intersection)
         return false;
     }
 
-    if (x1 > x2 && x2 >= 0.0)
+    if (x1 > x2 && x2 >= min_distance)
     {
         std::swap(x1, x2);
     }
  
-    if (x1 < 0.0)
+    if (x1 < min_distance)
     { 
         return false;
     }

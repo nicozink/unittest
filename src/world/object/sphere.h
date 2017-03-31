@@ -10,7 +10,7 @@ public:
 
     ~Sphere();
 
-    bool trace(const Ray& r, Intersection& intersection) override;
+    bool trace(const Ray& r, Intersection& intersection, double min_distance) override;
 
 private:
 

@@ -53,21 +53,21 @@ else ()
 set(CMAKE_CXX_FLAGS "-DDEBUG -g -Wall -O0 -std=c++0x")
 endif()
 
-set(SRC_MAIN
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/math/quadratic.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/math/vector.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/math/vector3d.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/color.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/ray.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/resource/bitmap.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/light.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/sphere.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/traceable.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/world/camera.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/world/scene.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/render.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+file(
+  GLOB_RECURSE SRC_MAIN 
+  LIST_DIRECTORIES false
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c*
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h*
 )
+
+set(_src_root_path "${CMAKE_CURRENT_SOURCE_DIR}/src")
+
+foreach(_source IN ITEMS ${SRC_MAIN})
+    get_filename_component(_source_path "${_source}" PATH)
+    file(RELATIVE_PATH _source_path_rel "${_src_root_path}" "${_source_path}")
+    string(REPLACE "/" "\\" _group_path "${_source_path_rel}")
+    source_group("${_group_path}" FILES "${_source}")
+endforeach()
 
 # Output the version to the Version.h file.
 configure_file (

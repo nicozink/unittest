@@ -5,9 +5,9 @@ Traceable::~Traceable()
 
 }
 
-bool Traceable::trace(const Ray& r)
+bool Traceable::trace(const Ray& r, double min_distance)
 {
     Intersection i;
 
-    return trace(r, i);
+    return trace(r, i, min_distance);
 }

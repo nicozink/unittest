@@ -20,6 +20,10 @@ public:
 
 private:
 
+    bool find_intersection(const Ray &r);
+    
+    bool find_intersection(const Ray &r, Intersection &i);
+    
     std::vector<Light*> lights;
 
     std::vector<Traceable*> traceables;

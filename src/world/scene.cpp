@@ -1,6 +1,7 @@
 #include "scene.h"
 
 #include "object/sphere.h"
+#include "object/plane.h"
 
 #include "math/vector3d.h"
 
@@ -11,6 +12,7 @@ Scene::Scene()
     lights.push_back(new Light(Vector3d(-6, 4, -10), Color(1.0, 0.7, 0.6)));
 
     traceables.push_back(new Sphere(Vector3d(0.0, 0.0, 2.0), 0.5));
+    traceables.push_back(new Plane(Vector3d(0.0, -1.0, 0.0), Vector3d(0.0, 1.0, 0.0)));
 }
 
 Scene::~Scene()
@@ -28,45 +30,71 @@ Scene::~Scene()
 
 Color Scene::trace(const Ray r)
 {
-    const double MIN_DIST = 0.001;
     const double k_specular = 0.4;
     const double k_diffuse = 0.8;
     const double spec_shiny = 50;
     
-    for (auto& traceable : traceables)
+    Intersection i;
+
+    if (find_intersection(r, i))
     {
-        Intersection i;
+        Color c(0.0, 0.0, 0.0);
 
-        if (traceable->trace(r, i, MIN_DIST))
+        for (auto& light : lights)
         {
-            Color c;
+            Ray light_ray = light->get_ray_to_light(r.get_position(i.distance));
 
-            for (auto& light : lights)
+            if (!find_intersection(light_ray))
             {
-                Ray light_ray = light->get_ray_to_light(r.get_position(i.distance));
+                double diff_dot = i.normal.dot(light_ray.direction());
 
-                if (!traceable->trace(light_ray, MIN_DIST))
+                if (diff_dot > 0.0)
                 {
-                    double diff_dot = i.normal.dot(light_ray.direction());
+                    c = c + i.color * diff_dot * k_diffuse;
+                }
 
-                    if (diff_dot > 0.0)
-                    {
-                        c = c + i.color * diff_dot * k_diffuse;
-                    }
-
-                    Vector3d reflection = i.normal * 2.0 * diff_dot - light_ray.direction();
-                    double spec_dot = pow((r.direction() * -1.0).dot(reflection), spec_shiny);
-                    
-                    if (spec_dot > 0.0)
-                    {
-                        c = c + Color(1.0, 1.0, 1.0, 1.0) * spec_dot * k_specular;
-                    }
+                Vector3d reflection = i.normal * 2.0 * diff_dot - light_ray.direction();
+                double spec_dot = (r.direction() * -1.0).dot(reflection);
+                
+                if (spec_dot > 0.0)
+                {
+                    c = c + Color(1.0, 1.0, 1.0, 1.0) * pow(spec_dot, spec_shiny) * k_specular;
                 }
             }
-
-            return c;
         }
+
+        return c;
     }
 
     return Color(0.0, 0.0, 0.0);
+}
+
+bool Scene::find_intersection(const Ray &r)
+{
+    const double MIN_DIST = 0.001;
+    
+    for (auto& traceable : traceables)
+    {
+        if (traceable->trace(r, MIN_DIST))
+        {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+bool Scene::find_intersection(const Ray &r, Intersection &i)
+{
+    const double MIN_DIST = 0.001;
+    
+    for (auto& traceable : traceables)
+    {
+        if (traceable->trace(r, i, MIN_DIST))
+        {
+            return true;
+        }
+    }
+    
+    return false;
 }

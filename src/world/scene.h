@@ -16,13 +16,13 @@ public:
 
     ~Scene();
 
-    Color trace(const Ray r, int max_depth = 10);
+    Color trace(const Ray r, int max_depth = 10) const;
 
 private:
 
-    bool find_intersection(const Ray &r);
+    bool find_intersection(const Ray &r) const;
     
-    bool find_intersection(const Ray &r, Intersection &i);
+    bool find_intersection(const Ray &r, Intersection &i) const;
     
     std::vector<Light*> lights;
 

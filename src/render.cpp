@@ -9,8 +9,8 @@ All rights reserved.
 
 // Project Includes
 #include <resource/bitmap.h>
-#include <world/Camera.h>
-#include <world/Scene.h>
+#include <world/camera.h>
+#include <world/scene.h>
 
 // External Includes
 #include <iostream>
@@ -19,23 +19,20 @@ All rights reserved.
 // Runs the main program.
 int run(std::string scene_location)
 {
-  Bitmap bmp(800, 600);
-
-  Camera camera;
-  Scene scene;
-
   const int X_MAX = 800;
   const int Y_MAX = 600;
+  const int SPP = 16;
+
+  Bitmap bmp(X_MAX, Y_MAX);
+
+  Camera camera(X_MAX, Y_MAX, SPP);
+  Scene scene;
 
   for (int x = 0; x < X_MAX; ++x)
   {
     for (int y = 0; y < Y_MAX; ++y)
     {
-      Ray r = camera.get_ray((double)(x) / (double)(X_MAX), (double)(y) / (double)(Y_MAX));
-
-      const Color c = scene.trace(r);
-
-      bmp.set_pixel(x, y, c);
+      bmp.set_pixel(x, y, camera.calculate_pixel(x, y, scene));
     }
   }
   

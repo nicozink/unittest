@@ -24,6 +24,8 @@ public:
 
     Color operator*(const double value) const;
 
+    Color operator/(const double value) const;
+    
 private:
 
         double channels[4];

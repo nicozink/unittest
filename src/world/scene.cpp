@@ -31,7 +31,7 @@ Scene::~Scene()
     }
 }
 
-Color Scene::trace(const Ray r, int max_depth)
+Color Scene::trace(const Ray r, int max_depth) const
 {
     const double k_specular = 0.2;
     const double k_diffuse = 0.8;
@@ -82,7 +82,7 @@ Color Scene::trace(const Ray r, int max_depth)
     return Color(0.0, 0.0, 0.0);
 }
 
-bool Scene::find_intersection(const Ray &r)
+bool Scene::find_intersection(const Ray &r) const
 {
     const double MIN_DIST = 0.001;
     
@@ -97,7 +97,7 @@ bool Scene::find_intersection(const Ray &r)
     return false;
 }
 
-bool Scene::find_intersection(const Ray &r, Intersection &i)
+bool Scene::find_intersection(const Ray &r, Intersection &i) const
 {
     const double MIN_DIST = 0.001;
     

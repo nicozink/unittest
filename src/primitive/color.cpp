@@ -65,3 +65,8 @@ Color Color::operator*(const double value) const
 {
     return Color(r() * value, g() * value, b() * value, a());
 }
+
+Color Color::operator/(const double value) const
+{
+    return Color(r() / value, g() / value, b() / value, a());
+}

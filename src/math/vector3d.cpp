@@ -33,6 +33,15 @@ Vector3d::Vector3d(double v1, double v2, double v3)
   
 }
 
+Vector3d Vector3d::cross(const Vector3d& other) const
+{
+    double v0 = y() * other.z() - z() * other.y();
+    double v1 = z() * other.x() - x() * other.z();
+    double v2 = x() * other.y() - y() * other.x();
+    
+    return Vector3d(v0, v1, v2);
+}
+
 double Vector3d::dot(const Vector3d& other) const
 {
   return x() * other.x() + y() * other.y() + z() * other.z();

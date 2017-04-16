@@ -31,6 +31,8 @@ class Vector3d : public Vector<double, 3>
     // @param v3 The third value.
     Vector3d(double v1, double v2, double v3);
 
+    Vector3d cross(const Vector3d& other) const;
+    
     double dot(const Vector3d& other) const;
 
     double length() const;

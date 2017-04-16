@@ -1,6 +1,7 @@
 #include "scene.h"
 
 #include "object/sphere.h"
+#include "object/triangle.h"
 #include "object/plane.h"
 
 #include "math/vector3d.h"
@@ -14,6 +15,9 @@ Scene::Scene()
 
     traceables.push_back(new Sphere(Vector3d(-0.5, 0.0, 2.0), 0.4));
     traceables.push_back(new Sphere(Vector3d(0.5, 0.0, 2.0), 0.4));
+    
+    traceables.push_back(new Triangle(Vector3d(-1.0, -1.0, 4.0), Vector3d(-1.0, 1.0, 4.0), Vector3d(1.0, 1.0, 4.0), false));
+    traceables.push_back(new Triangle(Vector3d(-1.0, -1.0, 4.0), Vector3d(1.0, 1.0, 4.0), Vector3d(1.0, -1.0, 4.0), false));
     
     traceables.push_back(new Plane(Vector3d(0.0, -1.0, 0.0), Vector3d(0.0, 1.0, 0.0)));
 }
@@ -35,7 +39,7 @@ Color Scene::trace(const Ray r, int max_depth) const
 {
     const double k_specular = 0.2;
     const double k_diffuse = 0.8;
-    const double spec_shiny = 50;
+    const double spec_shiny = 25;
     
     Intersection i;
 
@@ -77,6 +81,8 @@ Color Scene::trace(const Ray r, int max_depth) const
         }
         
         return c;
+        
+        return Color(1.0, 1.0, 1.0);
     }
 
     return Color(0.0, 0.0, 0.0);

@@ -1,8 +1,13 @@
 #include "traceable.h"
 
+Traceable::Traceable(const Material* material)
+{
+    this->material = material;
+}
+
 Traceable::~Traceable()
 {
-
+    
 }
 
 bool Traceable::trace(const Ray& r, double min_distance)

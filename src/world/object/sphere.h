@@ -6,7 +6,7 @@ class Sphere : public Traceable
 {
 public:
 
-    Sphere(Vector3d position, double radius);
+    Sphere(Vector3d position, double radius, const Material* material);
 
     ~Sphere();
 

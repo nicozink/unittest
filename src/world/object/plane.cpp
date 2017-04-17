@@ -5,7 +5,8 @@
 #include <algorithm>
 #include <cmath>
 
-Plane::Plane(Vector3d position, Vector3d normal)
+Plane::Plane(Vector3d position, Vector3d normal, Material* const material)
+: Traceable(material)
 {
     this->position = position;
     this->normal = normal;
@@ -56,7 +57,7 @@ bool Plane::trace(const Ray& r, Intersection& intersection, double min_distance)
     }
     
     intersection.distance = x;
-    intersection.color = Color(0.0, 1.0, 0.0, 0.0);
+    intersection.material = material;
     intersection.normal = normal;
     
     return true;

@@ -26,5 +26,7 @@ private:
     
     std::vector<Light*> lights;
 
+    std::vector<Material*> materials;
+    
     std::vector<Traceable*> traceables;
 };

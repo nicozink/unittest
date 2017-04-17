@@ -2,12 +2,17 @@
 
 #include <math/vector3d.h>
 #include <primitive/color.h>
+#include <world/material/material.h>
 
-struct Intersection
+class Intersection
 {
-    double distance;
+    public:
 
-    Vector3d normal;
+        Surface get_surface();
 
-    Color color;
+        double distance;
+
+        Vector3d normal;
+    
+        const Material* material;
 };

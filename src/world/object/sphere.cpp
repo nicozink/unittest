@@ -4,7 +4,8 @@
 
 #include <algorithm>
 
-Sphere::Sphere(Vector3d position, double radius)
+Sphere::Sphere(Vector3d position, double radius, const Material* material)
+: Traceable(material)
 {
     this->position = position;
     this->radius = radius;
@@ -74,7 +75,7 @@ bool Sphere::trace(const Ray& r, Intersection& intersection, double min_distance
     normal.normalise();
 
     intersection.distance = x1;
-    intersection.color = Color(1.0, 0.0, 0.0, 0.0);
+    intersection.material = material;
     intersection.normal = normal;
 
     return true;

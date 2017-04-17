@@ -6,7 +6,7 @@ class Plane : public Traceable
 {
 public:
     
-    Plane(Vector3d position, Vector3d normal);
+    Plane(Vector3d position, Vector3d normal, Material* const material);
     
     ~Plane();
     

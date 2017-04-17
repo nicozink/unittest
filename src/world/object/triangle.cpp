@@ -1,6 +1,7 @@
 #include "triangle.h"
 
-Triangle::Triangle(Vector3d v0, Vector3d v1, Vector3d v2, const bool single_sided)
+Triangle::Triangle(Vector3d v0, Vector3d v1, Vector3d v2, const Material* material, const bool single_sided)
+: Traceable(material)
 {
     this->v0 = v0;
     this->v1 = v1;
@@ -95,7 +96,7 @@ bool Triangle::trace(const Ray& r, Intersection& intersection, double min_distan
     }
     
     intersection.distance = x;
-    intersection.color = Color(0.0, 0.0, 1.0, 0.0);
+    intersection.material = material;
     intersection.normal = normal;
     
     return true;

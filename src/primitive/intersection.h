@@ -6,13 +6,17 @@
 
 class Intersection
 {
-    public:
+public:
 
-        Surface get_surface();
+	Surface get_surface();
 
-        double distance;
+	double distance;
 
-        Vector3d normal;
-    
-        const Material* material;
+	Vector3d normal;
+	
+	const Material* material;
+	
+	double u;
+	
+	double v;
 };

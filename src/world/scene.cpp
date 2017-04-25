@@ -1,6 +1,11 @@
 #include "scene.h"
 
 #include "material/flat_color.h"
+#include "material/texture.h"
+
+#include "object/plane.h"
+
+#include "resource/image_utilities.h"
 
 #include "object/sphere.h"
 #include "object/triangle.h"
@@ -12,6 +17,9 @@
 
 Scene::Scene()
 {
+	Material* sphere_texture = new Texture(ImageUtilities::load_png("texture.png"), 0.8, 0.2, 25);
+	materials.push_back(sphere_texture);
+	
     Material* sphere_shiny = new FlatColor(Color(1.0, 0.0, 0.0), 0.8, 0.2, 25);
     materials.push_back(sphere_shiny);
     
@@ -24,7 +32,7 @@ Scene::Scene()
     lights.push_back(new Light(Vector3d(-6, 4, -10), Color(1.0, 0.7, 0.6)));
     lights.push_back(new Light(Vector3d(6, 8, -12), Color(0.6, 0.2, 0.3)));
 
-    traceables.push_back(new Sphere(Vector3d(-0.5, 0.0, 2.0), 0.4, sphere_shiny));
+    traceables.push_back(new Sphere(Vector3d(-0.5, 0.0, 2.0), 0.4, sphere_texture));
     traceables.push_back(new Sphere(Vector3d(0.5, 0.0, 2.0), 0.4, sphere_shiny));
     
     traceables.push_back(new Triangle(Vector3d(-3.0, -1.0, 4.0), Vector3d(-3.0, 1.0, 4.0), Vector3d(3.0, 1.0, 4.0), tri_matte, false));

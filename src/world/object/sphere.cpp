@@ -3,6 +3,7 @@
 #include "math/quadratic.h"
 
 #include <algorithm>
+#include <cmath>
 
 Sphere::Sphere(Vector3d position, double radius, const Material* material)
 : Traceable(material)
@@ -78,5 +79,9 @@ bool Sphere::trace(const Ray& r, Intersection& intersection, double min_distance
     intersection.material = material;
     intersection.normal = normal;
 
+	Vector3d neg_normal = normal * -1.0;
+	intersection.u = 0.5 + atan2(neg_normal.z(), neg_normal.x()) / (2.0 * M_PI);
+	intersection.v = 0.5 - asin(neg_normal.y()) / M_PI;
+	
     return true;
 }

@@ -2,18 +2,20 @@
 
 #include "material.h"
 
-class FlatColor : public Material
+#include "resource/image.h"
+
+class Texture : public Material
 {
 public:
     
-    FlatColor(Color color, double k_diffuse, double k_specular, double spec_shiny);
+    Texture(const Image image, double k_diffuse, double k_specular, double spec_shiny);
     
     Surface get_surface(double u, double v) const override;
     
 private:
     
-    Color color;
-    
+	const Image image;
+	
     double k_diffuse;
     
     double k_specular;

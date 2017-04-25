@@ -8,5 +8,5 @@ public:
     
     virtual ~Material();
     
-    virtual Surface get_surface() const = 0;
+    virtual Surface get_surface(double u = 0.0f, double v = 0.0f) const = 0;
 };

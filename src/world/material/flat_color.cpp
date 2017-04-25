@@ -8,7 +8,7 @@ FlatColor::FlatColor(Color color, double k_diffuse, double k_specular, double sp
     this->spec_shiny = spec_shiny;
 }
 
-Surface FlatColor::get_surface() const
+Surface FlatColor::get_surface(double u, double v) const
 {
     Surface s;
     

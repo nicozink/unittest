@@ -49,13 +49,26 @@ Image ImageUtilities::load_png(std::string path)
 	
 	png_bytep row = (png_bytep) malloc(png_get_rowbytes(png_ptr, info_ptr));
 	
+	int num_samples = 3;
+	if (png_get_color_type(png_ptr, info_ptr) == PNG_COLOR_TYPE_RGBA)
+	{
+		num_samples = 4;
+	}
+	
 	for (int y = height - 1; y >= 0; --y) {
 		png_read_row(png_ptr, row, nullptr);
 		
 		for (int x = 0; x < width; ++x) {
-			png_byte* ptr = &(row[x*4]);
+			png_byte* ptr = &(row[x*num_samples]);
 			
-			image.set_pixel(x, y, Color(ptr[0] / (double)255, ptr[1] / (double)255, ptr[2] / (double)255, ptr[3] / (double)255));
+			Color c;
+			
+			for (int i = 0; i < num_samples; ++i)
+			{
+				c[i] = ptr[i] / (double)255;
+			}
+			
+			image.set_pixel(x, y, c);
 		}
 	}
 	

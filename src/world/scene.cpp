@@ -20,7 +20,7 @@ Scene::Scene()
 	Material* sphere_texture = new Texture(ImageUtilities::load_png("texture.png"), 0.8, 0.2, 25);
 	materials.push_back(sphere_texture);
 	
-    Material* sphere_shiny = new FlatColor(Color(1.0, 0.0, 0.0), 0.8, 0.2, 25);
+    Material* sphere_shiny = new FlatColor(Color(0.9, 0.3, 0.4), 0.8, 0.3, 25);
     materials.push_back(sphere_shiny);
     
     Material* plane_matte = new FlatColor(Color(0.0, 1.0, 0.0), 0.9, 0.1, 10);
@@ -39,6 +39,8 @@ Scene::Scene()
     traceables.push_back(new Triangle(Vector3d(-3.0, -1.0, 4.0), Vector3d(3.0, 1.0, 4.0), Vector3d(3.0, -1.0, 4.0), tri_matte, false));
     
     traceables.push_back(new Plane(Vector3d(0.0, -1.0, 0.0), Vector3d(0.0, 1.0, 0.0), plane_matte));
+	
+	sky_box = new CubeMap("sky_right.png", "sky_left.png", "sky_up.png", "sky_down.png", "sky_front.png", "sky_back.png");
 }
 
 Scene::~Scene()
@@ -57,6 +59,11 @@ Scene::~Scene()
     {
         delete traceable;
     }
+	
+	if (sky_box != nullptr)
+	{
+		delete sky_box;
+	}
 }
 
 Color Scene::trace(const Ray r, int max_depth) const
@@ -111,9 +118,11 @@ Color Scene::trace(const Ray r, int max_depth) const
         }
         
         return c;
-        
-        return Color(1.0, 1.0, 1.0);
     }
+	else if (sky_box != nullptr)
+	{
+		return sky_box->get_color(r);
+	}
 
     return Color(0.0, 0.0, 0.0);
 }

@@ -22,7 +22,7 @@ int run(std::string scene_location)
 {
 	const int X_MAX = 800;
 	const int Y_MAX = 600;
-	const int SPP = 1;
+	const int SPP = 16;
 
 	Image img(X_MAX, Y_MAX);
 

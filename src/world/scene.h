@@ -1,5 +1,6 @@
 #pragma once
 
+#include "object/cube_map.h"
 #include "object/light.h"
 #include "object/traceable.h"
 
@@ -29,4 +30,6 @@ private:
     std::vector<Material*> materials;
     
     std::vector<Traceable*> traceables;
+	
+	CubeMap* sky_box;
 };

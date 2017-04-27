@@ -25,6 +25,10 @@ public:
     Color operator*(const double value) const;
 
     Color operator/(const double value) const;
+	
+	double& operator[](const int i);
+	
+	double operator[](const int i) const;
     
 private:
 

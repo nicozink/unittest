@@ -70,3 +70,13 @@ Color Color::operator/(const double value) const
 {
     return Color(r() / value, g() / value, b() / value, a());
 }
+
+double& Color::operator[](const int i)
+{
+	return channels[i];
+}
+
+double Color::operator[](const int i) const
+{
+	return channels[i];
+}

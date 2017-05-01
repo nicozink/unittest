@@ -9,7 +9,7 @@ Camera::Camera(int max_x, int max_y, int spp)
     this->spp = spp;
 }
 
-const Color Camera::calculate_pixel(int x, int y, const Scene& scene)
+const Color Camera::calculate_pixel(int x, int y, const Scene& scene) const
 {
     Color c;
     
@@ -21,7 +21,7 @@ const Color Camera::calculate_pixel(int x, int y, const Scene& scene)
     return c / spp;
 }
 
-std::vector<Ray> Camera::get_pixel_samples(int x, int y)
+std::vector<Ray> Camera::get_pixel_samples(int x, int y) const
 {
     std::vector<Ray> results;
     
@@ -41,10 +41,21 @@ std::vector<Ray> Camera::get_pixel_samples(int x, int y)
     return results;
 }
 
-Ray Camera::get_ray(float s, float t)
+Ray Camera::get_ray(float s, float t) const
 {
     Vector3d origin(0.0, 0.0, 0.0);
     Vector3d dest((s - 0.5), (t - 0.5) * (double)max_y / (double)max_x, 1.0);
 
     return Ray(origin, dest);
 }
+
+int Camera::width() const
+{
+	return max_x;
+}
+
+int Camera::height() const
+{
+	return max_y;
+}
+

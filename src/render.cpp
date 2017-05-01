@@ -8,6 +8,7 @@ All rights reserved.
 // Local Includes
 
 // Project Includes
+#include <render/batch_render.h>
 #include <resource/image.h>
 #include <resource/image_utilities.h>
 #include <world/camera.h>
@@ -29,13 +30,8 @@ int run(std::string scene_location)
 	Camera camera(X_MAX, Y_MAX, SPP);
 	Scene scene;
 	
-	for (int x = 0; x < X_MAX; ++x)
-	{
-		for (int y = 0; y < Y_MAX; ++y)
-		{
-			img.set_pixel(x, y, camera.calculate_pixel(x, y, scene));
-		}
-	}
+	BatchRender render(img, camera, scene);
+	render.run();
 	
 	ImageUtilities::save_png(img, "out.png");
 	

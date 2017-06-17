@@ -17,7 +17,7 @@ public:
 
     ~Scene();
 
-    Color trace(const Ray r, int max_depth = 10) const;
+    Color trace(const Ray r, int depth = 0, int max_depth = 10) const;
 
 private:
 

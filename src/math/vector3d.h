@@ -16,43 +16,44 @@ All rights reserved.
 // This declares a vector containing three double values.
 class Vector3d : public Vector<double, 3>
 {
-  public:
+public:
+	//
+	// Constructors
+	//
 
-    //
-    // Constructors
-    //
+	// Initialises a new instance of the Vector3d class.
+	Vector3d();
 
-    // Initialises a new instance of the Vector3d class.
-    Vector3d();
+	// Initialises a new instance of the Vector3d class.
+	// @param v1 The first value.
+	// @param v2 The second value.
+	// @param v3 The third value.
+	Vector3d(double v1, double v2, double v3);
 
-    // Initialises a new instance of the Vector3d class.
-    // @param v1 The first value.
-    // @param v2 The second value.
-    // @param v3 The third value.
-    Vector3d(double v1, double v2, double v3);
+	Vector3d cross(const Vector3d& other) const;
 
-    Vector3d cross(const Vector3d& other) const;
-    
-    double dot(const Vector3d& other) const;
+	double dot(const Vector3d& other) const;
 
-    double length() const;
+	double length() const;
 
-    void normalise();
+	void normalise();
 
-    double& x();
-    double x() const;
+	double& x();
+	double x() const;
 
-    double& y();
-    double y() const;
+	double& y();
+	double y() const;
 
-    double& z();
-    double z() const;
+	double& z();
+	double z() const;
 
-    Vector3d operator+(const Vector3d& other) const;
+	Vector3d operator+(const Vector3d& other) const;
 
-    Vector3d operator-(const Vector3d& other) const;
+	Vector3d operator-(const Vector3d& other) const;
 
-    Vector3d operator*(const double value) const;
+	Vector3d operator*(const double value) const;
+
+	Vector3d operator/(const double value) const;
 };
 
 #endif

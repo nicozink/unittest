@@ -23,6 +23,10 @@
 // System includes
 
 #include <cmath>
+#include <random>
+
+static std::uniform_real_distribution<double> unif(0.0, 1.0);
+static std::default_random_engine re;
 
 Scene::Scene()
 {
@@ -137,15 +141,50 @@ Color Scene::trace(const Ray r, int depth, int max_depth) const
 			
 			c = c + light_accumulator.average(light_samples_count);
 		}
-
+		
 		if (s.k_specular > 0.0 && depth < max_depth)
 		{
+			const int REFLECTION_SAMPLES = 32;
+			int reflection_samples_count = 1;
+			
+			if (depth == 0)
+			{
+				reflection_samples_count = REFLECTION_SAMPLES;
+			}
+			
+			ColorAccumulator light_accumulator;
+			
 			double diff_dot = i.normal.dot(r.direction());
 			Vector3d reflection = r.direction() - i.normal * 2.0 * diff_dot;
 			
-			Ray r_reflect(r.get_position(i.distance), reflection);
+			for (int rs = 0; rs < reflection_samples_count; ++rs)
+			{
+				Vector3d random_reflection = reflection;
+				
+				if (reflection_samples_count > 1)
+				{
+					double a = unif(re);
+					double b = unif(re);
+					
+					double theta = acos(pow((1.0 - a), s.spec_shiny));
+					double phi = 2 * M_PI * b;
+					
+					double x = sin(phi) * cos(theta) / 16;
+					double y = sin(phi) * sin(theta) / 16;
+					
+					Vector3d u = reflection.cross(i.normal);
+					Vector3d v = reflection.cross(u);
+					
+					random_reflection = reflection + u * x + v * y;
+					random_reflection.normalise();
+				}
+				
+				Ray r_reflect(r.get_position(i.distance), random_reflection);
 
-			c = c + trace(r_reflect, depth + 1, max_depth) * s.k_specular;
+				light_accumulator.add(trace(r_reflect, depth + 1, max_depth) * s.k_specular);
+			}
+			
+			c = c + light_accumulator.average(reflection_samples_count);
 		}
 
 		return c;

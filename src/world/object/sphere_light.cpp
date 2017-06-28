@@ -2,8 +2,8 @@
 
 #include <random>
 
-std::uniform_real_distribution<double> unif(-1.0, 1.0);
-std::default_random_engine re;
+static std::uniform_real_distribution<double> unif(-1.0, 1.0);
+static std::default_random_engine re;
 
 SphereLight::SphereLight(Vector3d position, double radius, Color color)
 : Light(color)

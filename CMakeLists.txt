@@ -62,7 +62,7 @@ endif (MSVC)
 
 # Set user specified flags.
 if (MSVC)
-set(CMAKE_CXX_FLAGS "-std=c++11")
+set(CMAKE_CXX_FLAGS "-std=c++11 -D_USE_MATH_DEFINES")
 else ()
 set(CMAKE_CXX_FLAGS "-DDEBUG -g -Wall -O0 -std=c++11")
 endif()
@@ -105,14 +105,26 @@ foreach(_dependency IN ITEMS ${DEPENDENCIES})
 		include_directories(${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/include)
 	endif()
 
-	if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/darwin)
-		link_directories(${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/darwin)
+	if (MSVC)
+		if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/vs)
+			link_directories(${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/vs)
 
-		FILELIST(LINK_LIBS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/darwin *.a)
+			FILELIST(LINK_LIBS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/vs *.lib)
 
-		foreach(_lib IN ITEMS ${LINK_LIBS})
-			LIST(APPEND LINKS ${_lib})
-		endforeach()
+			foreach(_lib IN ITEMS ${LINK_LIBS})
+				LIST(APPEND LINKS ${_lib})
+			endforeach()
+		endif()
+	elseif (APPLE)
+		if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/darwin)
+			link_directories(${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/darwin)
+
+			FILELIST(LINK_LIBS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/darwin *.a)
+
+			foreach(_lib IN ITEMS ${LINK_LIBS})
+				LIST(APPEND LINKS ${_lib})
+			endforeach()
+		endif()
 	endif()
 endforeach()
 

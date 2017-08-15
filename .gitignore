@@ -3,3 +3,6 @@ build*
 
 # Mac
 .DS_Store
+
+# Visual Studio
+.vs

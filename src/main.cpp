@@ -13,5 +13,5 @@ All rights reserved.
 // Runs the main program.
 int main(int argc, char** argv)
 {
-	return UnitTests::Run();
+	return UnitTests::Run() ? 0 : 1;
 }

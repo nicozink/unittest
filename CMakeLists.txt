@@ -1,6 +1,8 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.0)
 
 PROJECT(unittest_tests)
+
+enable_testing()
 
 include(unittest.cmake)
 
@@ -24,3 +26,6 @@ ADD_EXECUTABLE(
 	${SRC_TEST})
 
 target_link_libraries(unittest_tests unittest)
+
+add_test(NAME MyTest
+         COMMAND unittest_tests)

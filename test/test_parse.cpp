@@ -100,11 +100,21 @@ TEST(Parse, TestEmptyObject)
 	ASSERT(json.is_object() && json.is_empty());
 }
 
-/*TEST(Parse, TestObject)
+TEST(Parse, TestOneElementObject)
 {
-	auto json = JSON::Parse(" \"{ \"a\": \"b\" }\" ");
+	auto json = JSON::Parse(" { \"1\": 1 } ");
 
 	ASSERT(json.is_object());
 	ASSERT(json.size() == 1);
-	ASSERT(json["a"].get<std::string>() == "b");
-}*/
+	ASSERT(json["1"].get<int>() == 1);
+}
+
+TEST(Parse, TestTwoElementObject)
+{
+	auto json = JSON::Parse(" { \"1\": 1, \"2\": 2 } ");
+
+	ASSERT(json.is_object());
+	ASSERT(json.size() == 2);
+	ASSERT(json["1"].get<int>() == 1);
+	ASSERT(json["2"].get<int>() == 2);
+}

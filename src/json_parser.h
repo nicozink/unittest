@@ -29,6 +29,8 @@ private:
 
 	void read_json_object(JSON_Value& value);
 
+	void read_json_object_value(JSON_Value& value);
+
 	void read_json_value(JSON_Value& value);
 
 	JSON_Lexer lexer;

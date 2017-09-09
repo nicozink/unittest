@@ -149,6 +149,16 @@ int JSON_Value::get<int>()
 	return (int)values.number;
 }
 
+void JSON_Value::insert(std::string name, JSON_Value value)
+{
+	if (type != JSON_Type::Object)
+	{
+		empty_object();
+	}
+
+	(*values.values)[name] = value;
+}
+
 bool JSON_Value::is_array()
 {
 	return type == JSON_Type::Array;

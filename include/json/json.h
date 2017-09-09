@@ -51,6 +51,8 @@ public:
 	template <typename T>
 	T get();
 
+	void insert(std::string name, JSON_Value value);
+
 	bool is_array();
 
 	bool is_empty();

@@ -90,23 +90,46 @@ void JSON_Parser::read_json_object(JSON_Value& value)
 		return;
 	}
 
-	/*do
+	read_json_object_value(value);
+
+	if (lexer.get_current_token() != JSON_Token::end_object)
 	{
-		JSON_Value new_value;
-
-		read_json_value(new_value);
-
-		value.push_back(new_value);
-
-		lexer.read_next();
-	} while (lexer.get_current_token() == JSON_Token::separator_comma);
-
-	if (lexer.get_current_token() != JSON_Token::end_array)
-	{
-		throw "Expected array end.";
+		throw "Expected object end.";
 	}
 
-	lexer.read_next();*/
+	lexer.read_next();
+}
+
+void JSON_Parser::read_json_object_value(JSON_Value& value)
+{
+	if (lexer.get_current_token() != JSON_Token::string)
+	{
+		throw "Expected string token.";
+	}
+
+	std::string value_name = lexer.get_string();
+
+	lexer.read_next();
+
+	if (lexer.get_current_token() != JSON_Token::separator_colon)
+	{
+		throw "Expected colon separator token.";
+	}
+
+	lexer.read_next();
+
+	JSON_Value new_value;
+
+	read_json_value(new_value);
+
+	value.insert(value_name, new_value);
+
+	if (lexer.get_current_token() == JSON_Token::separator_comma)
+	{
+		lexer.read_next();
+
+		read_json_object_value(value);
+	}
 }
 
 void JSON_Parser::read_json_value(JSON_Value& value)

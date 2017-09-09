@@ -39,11 +39,32 @@ TEST(Parse, TestBooleanFalse)
 	ASSERT(json.contains<bool>() && json.get<bool>() == false);
 }
 
-TEST(Parse, TestEmptyObject)
+TEST(Parse, TestEmptyString)
 {
-	auto json = JSON::Parse(" { } ");
+	auto json = JSON::Parse(" \"\" ");
 
-	ASSERT(json.is_object() && json.is_empty());
+	ASSERT(json.contains<std::string>() && json.get<std::string>() == "");
+}
+
+TEST(Parse, TestString)
+{
+	auto json = JSON::Parse(" \"string\" ");
+
+	ASSERT(json.contains<std::string>() && json.get<std::string>() == "string");
+}
+
+TEST(Parse, TestInteger)
+{
+	auto json = JSON::Parse(" 2 ");
+
+	ASSERT(json.contains<int>() && json.get<int>() == 2);
+}
+
+TEST(Parse, TestDouble)
+{
+	auto json = JSON::Parse(" 2.5 ");
+
+	ASSERT(json.contains<double>() && json.get<double>() == 2.5);
 }
 
 TEST(Parse, TestEmptyArray)
@@ -52,3 +73,38 @@ TEST(Parse, TestEmptyArray)
 
 	ASSERT(json.is_array() && json.is_empty());
 }
+
+TEST(Parse, TestOneElementArray)
+{
+	auto json = JSON::Parse(" [ 1 ] ");
+
+	ASSERT(json.is_array());
+	ASSERT(json.size() == 1);
+	ASSERT(json[0].get<int>() == 1);
+}
+
+TEST(Parse, TestTwoElementArray)
+{
+	auto json = JSON::Parse(" [ 1, 2 ] ");
+
+	ASSERT(json.is_array());
+	ASSERT(json.size() == 2);
+	ASSERT(json[0].get<int>() == 1);
+	ASSERT(json[1].get<int>() == 2);
+}
+
+TEST(Parse, TestEmptyObject)
+{
+	auto json = JSON::Parse(" { } ");
+
+	ASSERT(json.is_object() && json.is_empty());
+}
+
+/*TEST(Parse, TestObject)
+{
+	auto json = JSON::Parse(" \"{ \"a\": \"b\" }\" ");
+
+	ASSERT(json.is_object());
+	ASSERT(json.size() == 1);
+	ASSERT(json["a"].get<std::string>() == "b");
+}*/

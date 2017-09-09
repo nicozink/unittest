@@ -169,6 +169,16 @@ bool JSON_Value::is_object()
 	return type == JSON_Type::Object;
 }
 
+void JSON_Value::push_back(JSON_Value value)
+{
+	if (type != JSON_Type::Array)
+	{
+		empty_array();
+	}
+
+	values.array->push_back(value);
+}
+
 void JSON_Value::set(std::string string)
 {
 	clear();

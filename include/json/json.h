@@ -59,6 +59,8 @@ public:
 
 	bool is_object();
 
+	void push_back(JSON_Value value);
+
 	void set(std::string string);
 
 	void set(bool boolean);

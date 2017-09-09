@@ -14,6 +14,7 @@ enum class JSON_Token
 	literal_false,
 	separator_colon,
 	separator_comma,
-	value_string,
+	string,
+	number,
 	end_of_input,
 };

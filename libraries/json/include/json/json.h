@@ -137,6 +137,8 @@ public:
 
 	static JSON Parse(const std::string str);
 
+	static JSON ParseFile(const std::string path);
+
 private:
 
 };

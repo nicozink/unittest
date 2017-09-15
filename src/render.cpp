@@ -8,6 +8,7 @@ All rights reserved.
 // Local Includes
 
 // Project Includes
+#include <json/json.h>
 #include <render/batch_render.h>
 #include <resource/image.h>
 #include <resource/image_utilities.h>
@@ -19,8 +20,10 @@ All rights reserved.
 #include <string>
 
 // Runs the main program.
-int run(std::string scene_location)
+int run(std::vector<std::string> args)
 {
+	JSON config = JSON::ParseFile(std::string("config.json"));
+
 	const int X_MAX = 800;
 	const int Y_MAX = 600;
 	const int SPP = 16;

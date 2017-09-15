@@ -1,6 +1,8 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.7)
 
 PROJECT(render)
+
+enable_testing()
 
 MACRO(FILELIST result directory pattern)
 	file(
@@ -89,6 +91,12 @@ configure_file (
 	"${CMAKE_CURRENT_BINARY_DIR}/src/system.h"
 )
 
+# Output the config to the config.json file.
+configure_file (
+	"${CMAKE_CURRENT_SOURCE_DIR}/resources/config.json.in"
+	"${CMAKE_CURRENT_BINARY_DIR}/config.json"
+)
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/src)
 
@@ -132,4 +140,16 @@ ADD_EXECUTABLE(
 	render
 	${SRC_MAIN})
 
-TARGET_LINK_LIBRARIES(render ${LINKS})
+set(CMAKE_PREFIX_PATH "/libraries")
+set(as_subproject json unittest)
+
+macro(find_package name)
+	if(NOT "${name}" IN_LIST as_subproject)
+		_find_package(${ARGV})
+	endif()
+endmacro()
+
+add_subdirectory(libraries/json)
+add_subdirectory(libraries/unittest)
+
+TARGET_LINK_LIBRARIES(render json ${LINKS})

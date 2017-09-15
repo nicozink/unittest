@@ -8,6 +8,7 @@ All rights reserved.
 
 // System includes
 #include <string>
+#include <vector>
 
 // Main method which initialises the program.
 // @param argc The number of arguments.
@@ -17,6 +18,6 @@ int main(int argc, char** argv);
 
 // Runs the main program.
 // @param rom_location The file location of the ROM to run.
-int run(std::string param);
+int run(std::vector<std::string> args);
 
 #endif

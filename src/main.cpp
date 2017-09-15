@@ -10,7 +10,6 @@ All rights reserved.
 // Project Includes
 
 // External Includes
-#include <string>
 #include <iostream>
 
 // Main method which initialises the program.
@@ -19,23 +18,20 @@ All rights reserved.
 // @returns The success code.
 int main(int argc, char** argv)
 {
-  if (argc == 2)
-  {
-    std::string param(argv[1]);
-    
-    if (param == "-v" || param == "--version")
-    {
-      std::cout << "0.0.0.0" << std::endl;
-    }
-    else
-    {
-      return run(param);
-    }
-  }
-  else
-  {
-    std::cout << "Error - please select a scene to render." << std::endl;
-  }
-  
-  return 0;
+	std::vector<std::string> args;
+
+	for (int x = 1; x < argc; ++x)
+	{
+		std::string param(argv[1]);
+
+		if (param == "-v" || param == "--version")
+		{
+			std::cout << "0.0.0.0" << std::endl;
+			return 0;
+		}
+
+		args.push_back(param);
+	}
+
+	return run(args);
 }

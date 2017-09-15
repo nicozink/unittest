@@ -1,155 +1,72 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.0)
 
-PROJECT(render)
+PROJECT(unittest VERSION 1.0.0)
 
 enable_testing()
 
-MACRO(FILELIST result directory pattern)
-	file(
-		GLOB
-		files
-		RELATIVE ${directory}
-		${directory}/${pattern})
+set(SRC_MAIN
+	${CMAKE_CURRENT_SOURCE_DIR}/include/unittest/test.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/test_info.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/test_info.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/test_info_compare.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/unit_test_base.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/unit_test_error.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/unit_test_exception.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/unit_test_exception.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/unit_tests.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/unit_tests.h)
 
-	SET(${result} "")
+set(SRC_TEST
+	${CMAKE_CURRENT_SOURCE_DIR}/test/example.cpp)
 
-	foreach(_file  IN ITEMS ${files})
-		LIST(APPEND ${result} ${_file})
-	endforeach()
-ENDMACRO()
+set(_src_root_path "${CMAKE_CURRENT_SOURCE_DIR}/")
 
-# Define enumerators to identify system properties. These
-# need to match with the definitions found in the file
-# "Globals.h".
-
-# Define the operating system types.
-set(WINDOWS_ENUM 0)
-set(UNIX_ENUM 1)
-
-# Define the compiler types.
-set(GCC_ENUM 2)
-set(MINGW_ENUM 3)
-set(VISUAL_STUDIO_ENUM 4)
-set(CLANG_ENUM 5)
-
-# Define the render systems.
-set(SDL_ENUM 5)
-set(GLX_ENUM 6)
-
-# Define the architecture.
-set(X86_ENUM 7)
-set(X64_ENUM 8)
-
-# Detect the operating system.
-if (WIN32)
-    set(OPERATING_SYSTEM ${WINDOWS_ENUM})
-elseif (UNIX)
-    set(OPERATING_SYSTEM ${UNIX_ENUM})
-else (WIN32)
-    message(FATAL_ERROR "An unknown operating system is being used." )
-endif (WIN32)
-
-# Detect the compiler.
-if (MSVC)
-	set(COMPILER ${VISUAL_STUDIO_ENUM})
-elseif (MINGW)
-	set(COMPILER ${MINGW_ENUM})
-elseif (CMAKE_COMPILER_IS_GNUCC)
-	set(COMPILER ${GCC_ENUM})
-elseif (APPLE)
-	set(COMPILER ${CLANG_ENUM})
-else (MSVC)
-	message(FATAL_ERROR "An unknown compiler is being used." )
-endif (MSVC)
-
-# Set user specified flags.
-if (MSVC)
-set(CMAKE_CXX_FLAGS "-std=c++11 -D_USE_MATH_DEFINES")
-else ()
-set(CMAKE_CXX_FLAGS "-DDEBUG -g -Wall -O0 -std=c++11")
-endif()
-
-file(
-	GLOB_RECURSE SRC_MAIN
-	LIST_DIRECTORIES false
-	${CMAKE_CURRENT_SOURCE_DIR}/src/*.c*
-	${CMAKE_CURRENT_SOURCE_DIR}/src/*.h*
-)
-
-set(_src_root_path "${CMAKE_CURRENT_SOURCE_DIR}/src")
-
-foreach(_source IN ITEMS ${SRC_MAIN})
+foreach(_source IN ITEMS ${SRC_MAIN} ${SRC_TEST})
 	get_filename_component(_source_path "${_source}" PATH)
 	file(RELATIVE_PATH _source_path_rel "${_src_root_path}" "${_source_path}")
 	string(REPLACE "/" "\\" _group_path "${_source_path_rel}")
 	source_group("${_group_path}" FILES "${_source}")
 endforeach()
 
-# Output the version to the Version.h file.
-configure_file (
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/system.h.in"
-	"${CMAKE_CURRENT_BINARY_DIR}/src/system.h"
+add_library(unittest ${SRC_MAIN})
+
+target_include_directories(unittest
+	PUBLIC
+	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+	$<INSTALL_INTERFACE:include>
+	PRIVATE
+	${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+add_library(unittest_tests ${SRC_TEST})
+target_link_libraries(unittest_tests unittest)
+
+add_executable(unittest_test ${SRC_TEST})
+target_link_libraries(unittest_test unittest)
+
+add_test(NAME unittest_test COMMAND unittest_test)
+
+set(config_install_dir "lib/cmake/${PROJECT_NAME}")
+set(include_install_dir "include")
+
+set(generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
+set(version_config "${generated_dir}/${PROJECT_NAME}ConfigVersion.cmake")
+set(project_config "${generated_dir}/${PROJECT_NAME}Config.cmake")
+set(targets_export_name "${PROJECT_NAME}Targets")
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file("${version_config}" COMPATIBILITY SameMajorVersion)
+configure_package_config_file("cmake/Config.cmake.in" "${project_config}" INSTALL_DESTINATION "${config_install_dir}")
+
+install(TARGETS unittest EXPORT unittestTargets
+	LIBRARY DESTINATION lib
+	ARCHIVE DESTINATION lib
+	INCLUDES DESTINATION include)
+install(DIRECTORY include/unittest DESTINATION include)
+install(EXPORT unittestTargets
+	FILE unittestTargets.cmake
+	DESTINATION lib/cmake/unittest)
+install(
+    FILES "${project_config}" "${version_config}"
+    DESTINATION "${config_install_dir}"
 )
-
-# Output the config to the config.json file.
-configure_file (
-	"${CMAKE_CURRENT_SOURCE_DIR}/resources/config.json.in"
-	"${CMAKE_CURRENT_BINARY_DIR}/config.json"
-)
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/src)
-
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
-set(LINKS "")
-
-FILELIST(DEPENDENCIES ${CMAKE_CURRENT_SOURCE_DIR}/dependencies *)
-
-foreach(_dependency IN ITEMS ${DEPENDENCIES})
-	if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/include)
-		include_directories(${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/include)
-	endif()
-
-	if (MSVC)
-		if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/vs)
-			link_directories(${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/vs)
-
-			FILELIST(LINK_LIBS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/vs *.lib)
-
-			foreach(_lib IN ITEMS ${LINK_LIBS})
-				LIST(APPEND LINKS ${_lib})
-			endforeach()
-		endif()
-	elseif (APPLE)
-		if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/darwin)
-			link_directories(${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/darwin)
-
-			FILELIST(LINK_LIBS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/darwin *.a)
-
-			foreach(_lib IN ITEMS ${LINK_LIBS})
-				LIST(APPEND LINKS ${_lib})
-			endforeach()
-		endif()
-	endif()
-endforeach()
-
-ADD_EXECUTABLE(
-	render
-	${SRC_MAIN})
-
-set(CMAKE_PREFIX_PATH "/libraries")
-set(as_subproject json unittest)
-
-macro(find_package name)
-	if(NOT "${name}" IN_LIST as_subproject)
-		_find_package(${ARGV})
-	endif()
-endmacro()
-
-add_subdirectory(libraries/json)
-add_subdirectory(libraries/unittest)
-
-TARGET_LINK_LIBRARIES(render json ${LINKS})

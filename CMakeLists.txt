@@ -31,6 +31,10 @@ endforeach()
 
 add_library(unittest ${SRC_MAIN})
 
+target_compile_features(unittest
+	PUBLIC
+	cxx_strong_enums)
+
 target_include_directories(unittest
 	PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

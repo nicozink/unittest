@@ -103,11 +103,20 @@ class UnitTestError
 {
 public:
 
+	//
+	// Constructor
+	//
+
 	// Creates a new instance of the UnitTestError class.
 	// @param comments The comments.
 	// @param isCritical A flag indicating whether this
 	// error is critical.
 	UnitTestError(std::string comments, bool is_critical);
+
+	// Copies the instance of the UnitTestError class.
+	// Default copy is unsupported due to the stringstream object.
+	// @param error The other error.
+	UnitTestError(const UnitTestError& error);
 
 	// Gets the error message.
 	// @returns The error message.

@@ -23,6 +23,14 @@ UnitTestError::UnitTestError(std::string comments, bool is_critical)
   
 }
 
+// Moves the instance of the UnitTestError class.
+// Copy is unsupported due to the stringstream object.
+// @param error The other error.
+UnitTestError::UnitTestError(const UnitTestError& error)
+{
+	string_stream << error.string_stream.str();
+}
+
 /*
  * Public Methods
  */

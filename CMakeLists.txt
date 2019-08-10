@@ -29,7 +29,7 @@ foreach(_source IN ITEMS ${SRC_MAIN} ${SRC_TEST})
 	source_group("${_group_path}" FILES "${_source}")
 endforeach()
 
-add_library(unittest ${SRC_MAIN})
+create_library(unittest library ${SRC_MAIN})
 
 target_compile_features(unittest
 	PUBLIC
@@ -42,10 +42,10 @@ target_include_directories(unittest
 	PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-add_library(unittest_tests ${SRC_TEST})
+create_library(unittest_tests tests ${SRC_TEST})
 target_link_libraries(unittest_tests unittest)
 
-add_executable(unittest_test ${SRC_TEST})
+create_executable(unittest_test test ${SRC_TEST})
 target_link_libraries(unittest_test unittest)
 
 add_test(NAME unittest_test COMMAND unittest_test)

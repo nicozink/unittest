@@ -11,7 +11,7 @@ All rights reserved.
 // External Includes
 
 // Runs the main program.
-int main(int argc, char** argv)
+int main(int, char**)
 {
 	return UnitTests::Run() ? 0 : 1;
 }

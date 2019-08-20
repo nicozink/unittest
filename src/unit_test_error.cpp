@@ -18,7 +18,7 @@ All rights reserved.
 // @param comments The comments.
 // @param isCritical A flag indicating whether this
 // error is critical.
-UnitTestError::UnitTestError(std::string comments, bool is_critical)
+UnitTestError::UnitTestError(std::string, bool)
 {
   
 }

@@ -3,7 +3,7 @@ name: CI
 on: [push]
 
 jobs:
-  build:
+  TestLinux:
 
     runs-on: ubuntu-latest
 
@@ -16,3 +16,20 @@ jobs:
         cmake ..
         make
         ./unittest_test
+        
+  TestEmscripten:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: lovasoa/setup-emscripten@master
+      with:
+        emscripten-version: '1.38.47'
+    - name: Configure CMake
+      run: |
+        mkdir -p build
+        cd build
+        emconfigure cmake ..
+        make
+        node cpp_util_test.js

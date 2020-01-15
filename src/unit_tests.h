@@ -25,6 +25,6 @@ namespace UnitTests
 	// @param testCase The test case.
 	// @param testName The test name.
 	TestInfo* RegisterTest(std::string testCase, std::string testName, UnitTestBase* unitTest);
-};
+}
 
 #endif

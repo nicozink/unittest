@@ -230,6 +230,6 @@ namespace UnitTests
 
 	// Runs all unit tests.
 	bool Run();
-};
+}
 
 #endif

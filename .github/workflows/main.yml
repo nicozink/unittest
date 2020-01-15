@@ -11,8 +11,8 @@ jobs:
     - uses: actions/checkout@v1
     - name: Configure CMake
       run: |
-        mkdir -p build
-        cd build
+        mkdir -p build_linux
+        cd build_linux
         cmake ..
         make
         ./unittest_test
@@ -28,8 +28,8 @@ jobs:
         emscripten-version: '1.38.47'
     - name: Configure CMake
       run: |
-        mkdir -p build
-        cd build
+        mkdir -p build_emsdk
+        cd build_emsdk
         emconfigure cmake ..
         make
         node cpp_util_test.js

@@ -3,27 +3,27 @@ name: Builds
 on: [push]
 
 jobs:
-	build_job:
-		runs-on: ${{ matrix.os }}
-		strategy:
-			matrix:
-				os: [windows-latest, ubuntu-latest, macos-latest]
-				type: [native, emscripten]
-				exclude:
-				- os: windows-latest
-					type: emscripten
-				- os: macos-latest
-					type: emscripten
-    	name: Build
+  build_job:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        type: [native, emscripten]
+        exclude:
+        - os: windows-latest
+          type: emscripten
+        - os: macos-latest
+          type: emscripten
 
-		steps:
-		- name: Checkout
-			uses: actions/checkout@v1
-		- name: Setup Dependencies
-			uses: lovasoa/setup-emscripten@master
-			with:
-				emscripten-version: '1.38.47'
-			if: matrix.type == 'emscripten'
+    name: Build
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Setup Dependencies
+      uses: lovasoa/setup-emscripten@master
+      with:
+        emscripten-version: '1.38.47'
+      if: matrix.type == 'emscripten'
 		- name: Execute
 			id: build
 			uses: nicozink/github-build-actions@master

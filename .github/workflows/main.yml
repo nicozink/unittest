@@ -24,9 +24,9 @@ jobs:
       with:
         emscripten-version: '1.38.47'
       if: matrix.type == 'emscripten'
-		- name: Execute
-			id: build
-			uses: nicozink/github-build-actions@master
-			with:
-				os: matrix.os
-				type: matrix.type
+    - name: Execute
+      id: build
+      uses: nicozink/github-build-actions@master
+      with:
+        os: matrix.os
+        type: matrix.type

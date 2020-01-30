@@ -4,8 +4,8 @@ PROJECT(unittest VERSION 1.0.0)
 
 enable_testing()
 
-if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_utils.cmake)
-	include(cmake/cmake_utils.cmake)
+if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/build_tools/cmake/cmake_utils.cmake)
+	include(build_tools/cmake/cmake_utils.cmake)
 endif()
 
 set(SRC_MAIN

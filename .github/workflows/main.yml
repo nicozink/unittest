@@ -28,5 +28,5 @@ jobs:
       id: build
       uses: nicozink/github-build-actions@master
       with:
-        os: matrix.os
-        type: matrix.type
+        os: ${{ matrix.os }}
+        type: ${{ matrix.type }}

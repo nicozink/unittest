@@ -53,28 +53,3 @@ create_executable(unittest_test test ${SRC_TEST})
 target_link_libraries(unittest_test unittest)
 
 add_test(NAME unittest_test COMMAND unittest_test)
-
-set(config_install_dir "lib/cmake/${PROJECT_NAME}")
-set(include_install_dir "include")
-
-set(generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
-set(version_config "${generated_dir}/${PROJECT_NAME}ConfigVersion.cmake")
-set(project_config "${generated_dir}/${PROJECT_NAME}Config.cmake")
-set(targets_export_name "${PROJECT_NAME}Targets")
-
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file("${version_config}" COMPATIBILITY SameMajorVersion)
-configure_package_config_file("cmake/Config.cmake.in" "${project_config}" INSTALL_DESTINATION "${config_install_dir}")
-
-install(TARGETS unittest EXPORT unittestTargets
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib
-	INCLUDES DESTINATION include)
-install(DIRECTORY include/unittest DESTINATION include)
-install(EXPORT unittestTargets
-	FILE unittestTargets.cmake
-	DESTINATION lib/cmake/unittest)
-install(
-    FILES "${project_config}" "${version_config}"
-    DESTINATION "${config_install_dir}"
-)

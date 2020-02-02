@@ -24,7 +24,7 @@ jobs:
       with:
         emscripten-version: '1.38.47'
       if: matrix.type == 'emscripten'
-    - name: Setup Emscripten
+    - name: Setup MSBuild
       uses: warrenbuckley/Setup-MSBuild@v1
       if: matrix.os == 'windows-latest'
     - name: Execute

@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.0)
 
+if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/build_tools/cmake/cmake_utils.cmake)
+	include(${CMAKE_CURRENT_SOURCE_DIR}/build_tools/cmake/cmake_utils.cmake)
+endif()
+
 PROJECT(unittest VERSION 1.0.0)
 
 enable_testing()
-
-if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/build_tools/cmake/cmake_utils.cmake)
-	include(build_tools/cmake/cmake_utils.cmake)
-endif()
 
 set(SRC_MAIN
 	${CMAKE_CURRENT_SOURCE_DIR}/include/unittest/test.h
@@ -53,7 +53,7 @@ create_executable(unittest_test test ${SRC_TEST})
 target_link_libraries(unittest_test unittest)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
-	add_test(NAME unittest_test COMMAND node "${CMAKE_CURRENT_BINARY_DIR}/unittest_test.js")
+	add_test(NAME unittest_test COMMAND ${NODE_JS} "${CMAKE_CURRENT_BINARY_DIR}/unittest_test.js")
 else ()
 	add_test(NAME unittest_test COMMAND unittest_test)
 endif ()

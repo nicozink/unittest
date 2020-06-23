@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/build_tools/cmake/cmake_utils.cmake)
-	include(${CMAKE_CURRENT_SOURCE_DIR}/build_tools/cmake/cmake_utils.cmake)
-endif()
+include(${LIBRARY_FOLDER}/build_tools/cmake/cmake_utils.cmake)
 
 PROJECT(unittest VERSION 1.0.0)
 
